@@ -2886,9 +2886,15 @@ try {
             break;
         }
         case 'darwin': {
-            let url = `${base_url}/FoundationDB-${version}_x86_64.pkg`;
+            let arch = os.arch();
+            console.log(`Detected architecture: ${arch}`); // Debug logging
+            let arch_suffix = arch === 'arm64' ? 'arm64' : 'x86_64';
+            console.log(`Architecture suffix: ${arch_suffix}`); // More debug logging
+            let url = `${base_url}/FoundationDB-${version}_${arch_suffix}.pkg`;
+            let pkg_name = `FoundationDB-${version}_${arch_suffix}.pkg`;
+
             exec(`curl -L -O ${url}`);
-            exec(`sudo installer -pkg FoundationDB-${version}_x86_64.pkg -target /`);
+            exec(`sudo installer -pkg ${pkg_name} -target /`);
             break;
         }
         default:
